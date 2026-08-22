@@ -8,9 +8,8 @@ from __future__ import annotations
 import logging
 from datetime import timedelta
 
-import aiohttp
-
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.template import Template
 
@@ -94,20 +93,19 @@ class TRMNLCoordinator:
         _LOGGER.debug("TRMNL: Preparing to send payload: %s", payload)
 
         try:
-            async with aiohttp.ClientSession() as session:
-                _LOGGER.debug("TRMNL: Sending POST request to %s", self._webhook_url)
-                async with session.post(self._webhook_url, json=payload) as response:
-                    if response.status == 200:
-                        _LOGGER.info("TRMNL: Successfully sent data to webhook")
-                        _LOGGER.debug(
-                            "TRMNL: Webhook response: %s", await response.text()
-                        )
-                    else:
-                        _LOGGER.error(
-                            "TRMNL: Error sending to webhook: %s", response.status
-                        )
-                        _LOGGER.error(
-                            "TRMNL: Response: %s", await response.text()
-                        )
+            _LOGGER.debug("TRMNL: Sending POST request")
+            async with async_get_clientsession(self._hass).post(self._webhook_url, json=payload) as response:
+                if response.status == 200:
+                    _LOGGER.info("TRMNL: Successfully sent data to webhook")
+                    _LOGGER.debug(
+                        "TRMNL: Webhook response: %s", await response.text()
+                    )
+                else:
+                    _LOGGER.error(
+                        "TRMNL: Error sending to webhook: %s", response.status
+                    )
+                    _LOGGER.error(
+                        "TRMNL: Response: %s", await response.text()
+                    )
         except Exception as err:  # noqa: BLE001
             _LOGGER.error("TRMNL: Failed to send data to webhook: %s", err)

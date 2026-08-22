@@ -31,7 +31,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     url = entry.data[CONF_URL]
     interval = entry.data[CONF_INTERVAL]
     interval_sec = interval * 60.0
-    _LOGGER.debug("TRMNL: Using webhook URL: %s pushing every %s min", url, interval)
+    _LOGGER.debug("TRMNL: Using webhook URL, pushing every %s min", interval)
 
     # Ensure the TRMNL label exists in the label registry
     ensure_trmnl_label(hass)
@@ -42,7 +42,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    _LOGGER.info("TRMNL: Integration setup completed for URL: %s", url)
+    _LOGGER.info("TRMNL: Integration setup completed")
     return True
 
 

@@ -30,6 +30,10 @@ Think of it like your browser loading a webpage: you reach out to the server, bu
 
 ### Option A, HACS (Recommended)
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Jef-NL&repository=trmnl-webhook-push&category=Integration)
+
+#### Manual Installation
+
 1. Open HACS and add this repository as a **[Custom Repository](https://www.hacs.xyz/docs/faq/custom_repositories/)**:
    ```
    https://github.com/Jef-NL/trmnl-webhook-push
